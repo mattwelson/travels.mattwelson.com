@@ -29,7 +29,6 @@ export const page = defineType({
       options: {
         source: 'title',
         maxLength: 200, // will be ignored if slugify is set
-        isUnique: true,
       },
     },
     defineField({

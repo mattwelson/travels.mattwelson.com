@@ -23,6 +23,7 @@ export default function PagePage() {
         <img
           src={imageBuilder.image(page.image).width(1_200).height(700).url()}
           alt={page.image.caption ?? ""}
+          className="aspect-[12/7] w-[1200px]"
         />
         <figcaption>{page.image.attribution ?? page.image.caption}</figcaption>
       </figure>
