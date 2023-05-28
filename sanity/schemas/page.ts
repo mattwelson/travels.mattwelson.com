@@ -84,6 +84,18 @@ export const page = defineType({
         }),
         defineArrayMember({
           type: 'image',
+          fields: [
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
+            },
+            {
+              name: 'attribution',
+              type: 'string',
+              title: 'Attribution',
+            },
+          ],
         }),
       ],
     }),
