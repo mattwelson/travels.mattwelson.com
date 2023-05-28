@@ -1,9 +1,7 @@
 import { json, Response, type LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { PortableText } from "@portabletext/react";
-import { imageBuilder } from "~/lib/sanity";
 import { getPage } from "~/model/sanity";
-import { Prose } from "~/components/layout";
+import { Image, Map, Prose, Text } from "~/components/layout";
 
 export async function loader({ params }: LoaderArgs) {
   const page = await getPage(params.slug!);
@@ -15,20 +13,16 @@ export async function loader({ params }: LoaderArgs) {
   return json({ page });
 }
 
-export default function PagePage() {
+// Renders the "page" type or the "country" type
+export default function PageOrCountryPage() {
   const { page } = useLoaderData<typeof loader>();
+  console.log({ page });
   return (
     <Prose>
-      <figure>
-        <img
-          src={imageBuilder.image(page.image).width(1_200).height(700).url()}
-          alt={page.image.caption ?? ""}
-          className="aspect-[12/7] w-[1200px]"
-        />
-        <figcaption>{page.image.attribution ?? page.image.caption}</figcaption>
-      </figure>
+      <Image image={page.image} />
+      <Map countrySlug={page.slug.current} />
       <h1>{page.title}</h1>
-      {page.body && <PortableText value={page.body as any} />}
+      <Text value={page.body} />
     </Prose>
   );
 }

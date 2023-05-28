@@ -1,5 +1,6 @@
 import {defineField, defineArrayMember, defineType} from 'sanity'
 import {MdEditDocument as icon} from 'react-icons/md'
+import {imageWithCaptionAndAttribute} from './objects'
 
 export const page = defineType({
   type: 'document',
@@ -46,24 +47,12 @@ export const page = defineType({
       },
     }),
     defineField({
-      type: 'image',
+      ...imageWithCaptionAndAttribute,
       name: 'image',
       title: 'Image',
       options: {
         hotspot: true,
       },
-      fields: [
-        {
-          name: 'caption',
-          type: 'string',
-          title: 'Caption',
-        },
-        {
-          name: 'attribution',
-          type: 'string',
-          title: 'Attribution',
-        },
-      ],
     }),
     defineField({
       type: 'array',
@@ -83,19 +72,7 @@ export const page = defineType({
           ],
         }),
         defineArrayMember({
-          type: 'image',
-          fields: [
-            {
-              name: 'caption',
-              type: 'string',
-              title: 'Caption',
-            },
-            {
-              name: 'attribution',
-              type: 'string',
-              title: 'Attribution',
-            },
-          ],
+          ...imageWithCaptionAndAttribute,
         }),
       ],
     }),

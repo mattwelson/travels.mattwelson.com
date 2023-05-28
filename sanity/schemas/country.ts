@@ -29,7 +29,6 @@ export const country = defineType({
       options: {
         source: 'title',
         maxLength: 200, // will be ignored if slugify is set
-        isUnique: true,
       },
     },
     defineField({
@@ -45,14 +44,6 @@ export const country = defineType({
       options: {
         layout: 'tags',
       },
-    }),
-    defineField({
-      type: 'image',
-      name: 'map',
-      title: 'Map',
-      description: 'An SVG map of the country - ie from https://mapsvg.com/',
-      fieldset: 'meta',
-      options: {accept: '.svg'},
     }),
     defineField({
       type: 'image',

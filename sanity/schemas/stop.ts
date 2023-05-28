@@ -1,6 +1,7 @@
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import {SlugSourceContext, defineArrayMember, defineField, defineType} from 'sanity'
 import {DateTime} from 'luxon'
 import {MdEditLocation as icon} from 'react-icons/md'
+import slugify from 'slugify'
 
 export const stop = defineType({
   name: 'stop',
@@ -22,17 +23,6 @@ export const stop = defineType({
       type: 'string',
       title: 'Title',
     }),
-    {
-      title: 'Slug',
-      name: 'slug',
-      type: 'slug',
-      fieldset: 'meta',
-      options: {
-        source: 'title',
-        maxLength: 200, // will be ignored if slugify is set
-        isUnique: true,
-      },
-    },
     defineField({
       fieldset: 'meta',
       name: 'date',
@@ -70,6 +60,31 @@ export const stop = defineType({
       type: 'reference',
       to: [{type: 'country'}],
     }),
+    {
+      title: 'Slug',
+      name: 'slug',
+      type: 'slug',
+      fieldset: 'meta',
+      options: {
+        source: ({title, country}: {title: string; country: {_ref: string}}) => ({
+          title,
+          country,
+        }),
+        slugify: async (
+          {title, country}: {title: string; country: {_ref: string}},
+          _: any,
+          {getClient}: SlugSourceContext
+        ) => {
+          const pageSlug = slugify(title, {lower: true})
+          const client = getClient({apiVersion: '2023-05-29'})
+          const {countrySlug} = await client.fetch<{countrySlug: string}>(
+            '*[_id == $ref][0]{"countrySlug": slug.current}',
+            {ref: country._ref}
+          )
+          return `${countrySlug}/${pageSlug}`
+        },
+      },
+    },
     defineField({
       fieldset: 'meta',
       name: 'order',
