@@ -1,5 +1,6 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
+  serverModuleFormat: "cjs",
   ignoredRouteFiles: ["**/.*"],
   server:
     process.env.NETLIFY || process.env.NETLIFY_LOCAL
@@ -9,6 +10,7 @@ module.exports = {
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
+  tailwind: true,
   future: {
     v2_errorBoundary: true,
     v2_meta: true,
