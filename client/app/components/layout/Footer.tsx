@@ -13,14 +13,14 @@ export function Footer() {
           className="group grid justify-items-center transition-colors hover:dark:text-slate-200"
           href="https://www.instagram.com/m.welson/"
         >
-          <FaInstagram className="text-4xl text-white group-hover:dark:text-emerald-400" />
+          <FaInstagram className="text-4xl dark:text-white group-hover:dark:text-emerald-400" />
           @m.welson
         </a>
         <a
           className="group grid justify-items-center transition-colors hover:dark:text-slate-200"
           href="https://www.instagram.com/alice.adventuring"
         >
-          <FaInstagram className="text-4xl text-white group-hover:dark:text-emerald-400" />
+          <FaInstagram className="text-4xl dark:text-white group-hover:dark:text-emerald-400" />
           @alice.adventuring
         </a>
       </div>

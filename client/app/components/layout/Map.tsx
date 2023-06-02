@@ -27,8 +27,20 @@ function getCountryMap(countrySlug: string) {
 }
 
 // TODO: fix aspect ratio, make it based off of crop, so it's different for each image
-export function Map({ countrySlug }: { countrySlug?: string }) {
+export function Map({
+  countrySlug,
+  className,
+}: {
+  countrySlug?: string;
+  className?: string;
+}) {
   if (!countrySlug) return null;
   const countryMap = getCountryMap(countrySlug);
-  return <div className="w-64 fill-slate-700">{countryMap}</div>;
+  return (
+    <div
+      className={`h-32 w-32 fill-slate-400/50 dark:fill-white/50 sm:h-48 sm:w-64 [&>svg]:h-full [&>svg]:w-full ${className}`}
+    >
+      {countryMap}
+    </div>
+  );
 }

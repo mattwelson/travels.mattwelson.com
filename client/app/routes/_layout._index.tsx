@@ -1,5 +1,12 @@
-import type { V2_MetaFunction } from "@remix-run/node";
+import {
+  json,
+  type LoaderFunction,
+  type V2_MetaFunction,
+} from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { LinkListWithImage } from "~/components/country";
 import { Prose } from "~/components/layout";
+import { getIndexPageCountries } from "~/model/sanity";
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -8,35 +15,19 @@ export const meta: V2_MetaFunction = () => {
   ];
 };
 
+export async function loader() {
+  const countries = await getIndexPageCountries();
+  return json({ countries });
+}
+
 export default function Index() {
+  const { countries } = useLoaderData<typeof loader>();
   return (
     <Prose>
-      <h1 className="text-lg font-bold">Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+      <div className="text-center font-bold text-slate-400">Trips</div>
+      <LinkListWithImage
+        links={countries.map((c) => ({ ...c, date: c.firstStopDate }))}
+      />
     </Prose>
   );
 }

@@ -1,6 +1,7 @@
 import {defineConfig} from 'sanity'
 import {deskTool} from 'sanity/desk'
 import {visionTool} from '@sanity/vision'
+import {groqdPlaygroundTool} from 'groqd-playground'
 import {schemaTypes} from './schemas'
 
 export default defineConfig({
@@ -10,7 +11,7 @@ export default defineConfig({
   projectId: 'k3w6sp5u',
   dataset: 'demonstration', //'production',
 
-  plugins: [deskTool(), visionTool()],
+  plugins: [deskTool(), groqdPlaygroundTool(), visionTool()],
 
   schema: {
     types: schemaTypes,
