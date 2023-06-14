@@ -1,6 +1,7 @@
 import {defineField, defineArrayMember, defineType} from 'sanity'
 import {MdEditDocument as icon} from 'react-icons/md'
 import {imageWithCaptionAndAttribute} from './objects'
+import {portableText} from './portableText'
 
 export const page = defineType({
   type: 'document',
@@ -54,27 +55,6 @@ export const page = defineType({
         hotspot: true,
       },
     }),
-    defineField({
-      type: 'array',
-      name: 'body',
-      title: 'Body',
-      of: [
-        defineArrayMember({
-          type: 'block',
-          styles: [
-            {title: 'Normal', value: 'normal'},
-            {title: 'Heading 2', value: 'h2'},
-            {title: 'Heading 3', value: 'h3'},
-            {title: 'Heading 4', value: 'h4'},
-            {title: 'Heading 5', value: 'h5'},
-            {title: 'Heading 6', value: 'h6'},
-            {title: 'Quote', value: 'blockquote'},
-          ],
-        }),
-        defineArrayMember({
-          ...imageWithCaptionAndAttribute,
-        }),
-      ],
-    }),
+    portableText,
   ],
 })

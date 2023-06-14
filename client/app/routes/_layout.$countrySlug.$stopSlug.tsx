@@ -2,7 +2,7 @@ import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { PageHero } from "~/components/country";
-import { Prose } from "~/components/layout";
+import { Prose, Text } from "~/components/layout";
 import { getStop } from "~/model/sanity";
 
 export async function loader({ params }: LoaderArgs) {
@@ -25,6 +25,7 @@ export default function StopPage() {
   return (
     <Prose>
       <PageHero image={stop.image} title={stop.title} slug={country.slug} />
+      <Text value={stop.body} />
     </Prose>
   );
 }
