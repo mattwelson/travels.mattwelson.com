@@ -52,9 +52,16 @@ export default function CountryPage() {
   const { stopSlug } = useParams();
   console.log({ stopSlug });
   return (
-    <Prose>
-      <PageHero {...page} shrink={!!stopSlug} />
-      <Outlet />
-    </Prose>
+    <>
+      <Prose>
+        <PageHero {...page} shrink={!!stopSlug} />
+        <Outlet />
+      </Prose>
+      <div className="dark:bg-emerald-800 -mb-16 py-16 mt-16">
+        <Prose>
+          <h2>More Countries</h2>
+        </Prose>
+      </div>
+    </>
   );
 }

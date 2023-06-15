@@ -49,7 +49,9 @@ export default function PageOrCountryPage() {
   const { page } = useLoaderData<typeof loader>();
   return (
     <>
-      {page._type === "country" && <CountryMeta stops={page.stops} />}
+      {page._type === "country" && (
+        <CountryMeta stops={page.stops} country={page} />
+      )}
       <Text value={page.body} />
       {page._type === "country" && <LinkListWithImage links={page.stops} />}
     </>

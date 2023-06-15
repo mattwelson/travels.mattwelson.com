@@ -1,6 +1,7 @@
 import type { TypeFromSelection, Selection } from "groqd";
 import { q, sanityImage } from "groqd";
 import { runQuery } from "~/lib/sanity";
+import { imageWithHotspot } from "./stop";
 
 export const imageSelection = sanityImage("image", {
   additionalFields: {
@@ -18,6 +19,13 @@ export const pageSelection = {
     .select({
       '_type == "block"': ["{...}", q.contentBlock()],
       '_type == "image"': ["{...}", sanityImage("").schema],
+      '_type == "imageList"': [
+        "{...}",
+        q.object({
+          _type: q.string(),
+          images: imageWithHotspot,
+        }),
+      ],
       default: {
         _key: q.string(),
         _type: ['"unsupported"', q.literal("unsupported")],
@@ -32,6 +40,11 @@ export const countrySelection = {
   ...pageSelection,
   _type: q.literal("country"),
   slug: ["['', 'country', slug.current]", q.string().array()],
+  firstStopDate: q("*")
+    .filter("_type == 'stop' && references(^._id)")
+    .order("date asc")
+    .slice(0)
+    .grabOne$("date", q.date()),
   stops: q("*")
     .filter("_type == 'stop' && references(^._id)")
     .order("date asc")

@@ -14,7 +14,6 @@ export function PageHero({
     shrink?: boolean;
   }
 >) {
-  console.log({ slug });
   return (
     <div
       className={`relative !col-start-1 col-end-[-1] mb-16 grid items-end justify-items-center gap-16 ${
