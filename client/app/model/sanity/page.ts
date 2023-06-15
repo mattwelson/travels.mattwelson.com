@@ -12,7 +12,7 @@ export const imageSelection = sanityImage("image", {
 export const pageSelection = {
   _type: q.literal("page"),
   title: q.string(),
-  slug: q.slug("slug"),
+  slug: ["['', slug.current]", q.string().array()],
   body: q("body")
     .filter()
     .select({
@@ -31,6 +31,7 @@ export const pageSelection = {
 export const countrySelection = {
   ...pageSelection,
   _type: q.literal("country"),
+  slug: ["['', 'country', slug.current]", q.string().array()],
   stops: q("*")
     .filter("_type == 'stop' && references(^._id)")
     .order("date asc")
@@ -39,7 +40,11 @@ export const countrySelection = {
       _id: q.string(),
       title: q.string(),
       image: imageSelection,
-      slug: q.slug("slug"),
+      // Join with .join('/') - empty string creates leading `/`
+      slug: [
+        "['', 'country', ^.slug.current, slug.current]",
+        q.string().array(),
+      ],
       date: q.string(),
       region: q.string(),
     }),
@@ -48,16 +53,24 @@ export const countrySelection = {
 export type countryType = TypeFromSelection<typeof countrySelection>;
 export type imageSelectionType = countryType["image"];
 
-export async function getPageOrCountry(slug: string) {
+export async function getCountry(slug: string) {
   return runQuery(
     q("*")
       .filter("slug.current == $slug")
-      .filter("_type in ['country', 'page']")
+      .filter("_type in ['country']")
       .slice(0)
-      .select({
-        "_type == 'country'": countrySelection,
-        default: pageSelection,
-      })
+      .grab(countrySelection)
+      .nullable(),
+    { slug }
+  );
+}
+export async function getPage(slug: string) {
+  return runQuery(
+    q("*")
+      .filter("slug.current == $slug")
+      .filter("_type in ['page']")
+      .slice(0)
+      .grab(pageSelection)
       .nullable(),
     { slug }
   );
@@ -71,7 +84,8 @@ export async function getIndexPageCountries() {
         _type: q.string(),
         _id: q.string(),
         title: q.string(),
-        slug: q.slug("slug"),
+        // Join with .join('/') - empty string creates leading `/`
+        slug: ["['', 'country', slug.current]", q.string().array()],
         image: imageSelection,
         firstStopDate: q("*")
           .filter("_type == 'stop' && references(^._id)")

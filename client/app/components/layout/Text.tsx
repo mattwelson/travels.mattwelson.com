@@ -11,7 +11,9 @@ export function Text({ value }: { value: any[] | undefined | null }) {
       components={{
         types: {
           image: ({ value }) => <Image image={value} />,
-          imageList: ({ value }) => <Images images={value.images as imageWithHotspotType} />
+          imageList: ({ value }) => (
+            <Images images={value.images as imageWithHotspotType} />
+          ),
         },
       }}
     />

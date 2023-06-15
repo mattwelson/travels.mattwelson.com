@@ -1,13 +1,14 @@
-import { InferType, q, sanityImage } from "groqd";
+import type { InferType } from "groqd";
+import { q, sanityImage } from "groqd";
 import { runQuery } from "~/lib/sanity";
 import { countrySelection, imageSelection } from "./page";
 
 export const imageWithHotspot = sanityImage("", {
-  additionalFields: { fullWidth: q.boolean(),  },
+  additionalFields: { fullWidth: q.boolean() },
   withHotspot: true,
   withCrop: true,
-  isList: true
-}).schema
+  isList: true,
+}).schema;
 
 export type imageWithHotspotType = InferType<typeof imageWithHotspot>;
 

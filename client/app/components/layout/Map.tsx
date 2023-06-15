@@ -9,17 +9,17 @@ import { UnitedStatesMap } from "../maps/united-states";
 // and including them as JSX SVGs works best
 function getCountryMap(countrySlug: string) {
   switch (countrySlug) {
-    case "austria":
+    case "/country/austria":
       return <AustriaMap />;
-    case "france":
+    case "/country/france":
       return <FranceMap />;
-    case "germany":
+    case "/country/germany":
       return <GermanyMap />;
-    case "italy":
+    case "/country/italy":
       return <ItalyMap />;
-    case "new-zealand":
+    case "/country/new-zealand":
       return <NewZealandMap />;
-    case "united-states":
+    case "/country/united-states":
       return <UnitedStatesMap />;
     default:
       return null;

@@ -10,7 +10,7 @@ export function LinkListWithImage({
     _type: string;
     _id: string;
     region?: string;
-    slug: string;
+    slug: string[];
     title: string;
     date: string;
     image: imageSelectionType;
@@ -27,7 +27,7 @@ export function LinkListWithImage({
                 {region}
               </div>
             )}
-            <Link className="no-underline" to={slug}>
+            <Link className="no-underline" to={slug.join("/")}>
               <h2 className="m-0">{title}</h2>
             </Link>
             <div className="text-slate-600 dark:text-slate-400">
@@ -37,7 +37,7 @@ export function LinkListWithImage({
             </div>
           </div>
           <div className="grid xl:max-w-lg xl:justify-items-start xl:pr-2">
-            <Link to={slug}>
+            <Link to={slug.join("/")}>
               <Image
                 className="m-0 overflow-hidden md:rounded-bl-md md:rounded-tl-md md:shadow-lg xl:rounded-lg"
                 image={image}

@@ -40,13 +40,14 @@ export const imageList = {
           name: 'fullWidth',
           type: 'boolean',
           title: 'Full width image',
-          description: 'Ensures the image will always be fullwidth, rather than potentionally being resized',
+          description:
+            'Ensures the image will always be fullwidth, rather than potentionally being resized',
           initialValue: false,
         },
       ],
       options: {
         hotspot: true,
-      }
+      },
     }),
   ],
 }

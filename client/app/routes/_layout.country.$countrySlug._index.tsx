@@ -4,13 +4,12 @@ import {
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
-import { getPageOrCountry } from "~/model/sanity";
+import { getCountry } from "~/model/sanity";
 import { Prose, Text } from "~/components/layout";
 import { CountryMeta, LinkListWithImage } from "~/components/country";
-import { PageHero } from "~/components/country";
 
 export async function loader({ params }: LoaderArgs) {
-  const page = await getPageOrCountry(params.slug!);
+  const page = await getCountry(params.countrySlug!);
   if (!page)
     throw new Response(null, {
       status: 404,
@@ -49,11 +48,10 @@ export function ErrorBoundary() {
 export default function PageOrCountryPage() {
   const { page } = useLoaderData<typeof loader>();
   return (
-    <Prose>
-      <PageHero {...page} />
+    <>
       {page._type === "country" && <CountryMeta stops={page.stops} />}
       <Text value={page.body} />
       {page._type === "country" && <LinkListWithImage links={page.stops} />}
-    </Prose>
+    </>
   );
 }
