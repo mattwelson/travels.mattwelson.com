@@ -23,9 +23,10 @@ export function CountryMeta({
         </div>
         <div className="grid justify-items-center">
           <div className="text-xl">
-            {DateTime.fromISO(country.firstStopDate.toString()).toFormat(
-              "LLL yyyy"
-            )}
+            {country.firstStopDate &&
+              DateTime.fromISO(country.firstStopDate.toString()).toFormat(
+                "LLL yyyy"
+              )}
           </div>
           <div className="text-sm text-slate-400">Summer</div>
         </div>

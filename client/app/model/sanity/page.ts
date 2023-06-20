@@ -44,7 +44,8 @@ export const countrySelection = {
     .filter("_type == 'stop' && references(^._id)")
     .order("date asc")
     .slice(0)
-    .grabOne$("date", q.date()),
+    .grabOne$("date", q.date())
+    .nullable(),
   stops: q("*")
     .filter("_type == 'stop' && references(^._id)")
     .order("date asc")

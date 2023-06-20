@@ -3,6 +3,7 @@ import { FranceMap } from "../maps/france";
 import { GermanyMap } from "../maps/germany";
 import { ItalyMap } from "../maps/italy";
 import { NewZealandMap } from "../maps/new-zealand";
+import { UnitedKingdomMap } from "../maps/united-kingdom";
 import { UnitedStatesMap } from "../maps/united-states";
 
 // Note mapsvg requires some alterations to make them work,
@@ -19,6 +20,8 @@ function getCountryMap(countrySlug: string) {
       return <ItalyMap />;
     case "/country/new-zealand":
       return <NewZealandMap />;
+    case "/country/united-kingdom":
+      return <UnitedKingdomMap />;
     case "/country/united-states":
       return <UnitedStatesMap />;
     default:
