@@ -60,7 +60,7 @@ export async function getCountry(slug: string) {
         otherCountries: q("*")
           .filterByType("country")
           .grab$(countryListSelect)
-          .filter("slug.current != $slug")
+          .filter("_id != ^_id")
           .filter("stopCount > 0")
           .order("firstStopDate desc")
           .slice(0, 3),
