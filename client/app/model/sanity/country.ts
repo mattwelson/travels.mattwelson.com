@@ -20,7 +20,7 @@ export const countrySelection = {
   slug: ["['', 'country', slug.current]", q.string().array()],
   stops: q("*")
     .filter("_type == 'stop' && references(^._id)")
-    .order("date asc")
+    .order("date desc")
     .grab$({
       _type: q.string(),
       _id: q.string(),

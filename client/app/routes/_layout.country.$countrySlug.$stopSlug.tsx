@@ -1,8 +1,10 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { DateTime } from "luxon";
 import { PageHero } from "~/components/country";
 import { Text } from "~/components/layout";
+import { OtherStops, StopMeta } from "~/components/stops";
 import { getStop } from "~/model/sanity";
 
 export async function loader({ params }: LoaderArgs) {
@@ -23,8 +25,13 @@ export default function StopPage() {
   const { country, stop } = useLoaderData<typeof loader>();
   return (
     <>
-      <PageHero image={stop.image} title={stop.title} />
+      <PageHero image={stop.image} title={stop.title} slug={stop.slug} />
+      <StopMeta
+        date={DateTime.fromISO(stop.date).toFormat("dd MMM yyyy")}
+        region={stop.region}
+      />
       <Text value={stop.body} />
+      <OtherStops next={stop.nextStop} previous={stop.previousStop} />
     </>
   );
 }

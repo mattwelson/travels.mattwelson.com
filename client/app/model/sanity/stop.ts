@@ -29,8 +29,13 @@ export async function getStop({
       .grab$({
         title: q.string(),
         date: q.string(),
+        region: q.string(),
         image: imageSelection,
         country: q("country").deref().grab$(countrySelection),
+        slug: [
+          "['', 'country', country->.slug.current, slug.current]",
+          q.string().array(),
+        ],
         body: q("body")
           .filter()
           .select({
@@ -48,6 +53,39 @@ export async function getStop({
               _type: ['"unsupported"', q.literal("unsupported")],
               unsupportedType: ["_type", q.string()],
             },
+          })
+          .nullable(),
+        // TODO: move to a separate function like countries are
+        nextStop: q("*")
+          .filterByType("stop")
+          .filter("country == ^.country")
+          .filter("date > ^.date")
+          .order("date asc")
+          .slice(0)
+          .grab$({
+            title: q.string(),
+            slug: [
+              "['', 'country', country->.slug.current, slug.current]",
+              q.string().array(),
+            ],
+            image: imageSelection,
+            date: q.string(),
+          })
+          .nullable(),
+        previousStop: q("*")
+          .filterByType("stop")
+          .filter("country == ^.country")
+          .filter("date < ^.date")
+          .order("date desc")
+          .slice(0)
+          .grab$({
+            title: q.string(),
+            slug: [
+              "['', 'country', country->.slug.current, slug.current]",
+              q.string().array(),
+            ],
+            image: imageSelection,
+            date: q.string(),
           })
           .nullable(),
       })

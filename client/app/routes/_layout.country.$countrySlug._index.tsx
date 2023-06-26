@@ -50,11 +50,15 @@ export function ErrorBoundary() {
 export default function PageOrCountryPage() {
   const { country, nextCountry, previousCountry } =
     useLoaderData<typeof loader>();
-  console.log({ nextCountry, previousCountry });
   return (
     <>
       {country._type === "country" && (
-        <CountryMeta stops={country.stops} country={country} />
+        <CountryMeta
+          stops={country.stops}
+          country={country}
+          nextCountry={nextCountry ?? null}
+          previousCountry={previousCountry ?? null}
+        />
       )}
       <Text value={country.body} />
       {country._type === "country" && (
