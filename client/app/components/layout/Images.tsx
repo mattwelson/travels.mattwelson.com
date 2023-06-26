@@ -3,8 +3,6 @@ import type { imageWithHotspotType } from "~/model/sanity";
 
 // TODO: fix aspect ratio, make it based off of crop, so it's different for each image
 export function Images({ images }: { images: imageWithHotspotType }) {
-  // TODO: group the images, how?
-  console.log({ images });
   return (
     <div className="my-8 !col-start-1 !col-end-[-1] sm:mx-2 ">
       <div className="flex flex-wrap mx-auto w-[1200px] max-w-full gap-2 items-stretch">
