@@ -4,18 +4,20 @@ import {
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
-import { getCountry } from "~/model/sanity";
+import { getCountry, getNextAndPreviousCountries } from "~/model/sanity";
 import { Prose, Text } from "~/components/layout";
 import { CountryMeta, LinkListWithImage } from "~/components/country";
 
 export async function loader({ params }: LoaderArgs) {
-  const page = await getCountry(params.countrySlug!);
-  if (!page)
+  const country = await getCountry(params.countrySlug!);
+  if (!country)
     throw new Response(null, {
       status: 404,
       statusText: "Not Found",
     });
-  return json({ page });
+  const { nextCountry, previousCountry } =
+    (await getNextAndPreviousCountries(country.firstStopDate ?? "")) ?? {};
+  return json({ country, nextCountry, previousCountry });
 }
 
 export function ErrorBoundary() {
@@ -46,14 +48,18 @@ export function ErrorBoundary() {
 
 // Renders the "page" type or the "country" type
 export default function PageOrCountryPage() {
-  const { page } = useLoaderData<typeof loader>();
+  const { country, nextCountry, previousCountry } =
+    useLoaderData<typeof loader>();
+  console.log({ nextCountry, previousCountry });
   return (
     <>
-      {page._type === "country" && (
-        <CountryMeta stops={page.stops} country={page} />
+      {country._type === "country" && (
+        <CountryMeta stops={country.stops} country={country} />
       )}
-      <Text value={page.body} />
-      {page._type === "country" && <LinkListWithImage links={page.stops} />}
+      <Text value={country.body} />
+      {country._type === "country" && (
+        <LinkListWithImage links={country.stops} />
+      )}
     </>
   );
 }

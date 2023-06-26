@@ -30,11 +30,13 @@ export function LinkListWithImage({
             <Link className="no-underline" to={slug.join("/")}>
               <h2 className="m-0">{title}</h2>
             </Link>
-            <div className="text-slate-600 dark:text-slate-400">
-              {DateTime.fromISO(date.toString()).toFormat(
-                _type === "stop" ? "dd LLL yyyy" : "LLL yyyy"
-              )}
-            </div>
+            {date && (
+              <div className="text-slate-600 dark:text-slate-400">
+                {DateTime.fromISO(date).toFormat(
+                  _type === "stop" ? "dd LLL yyyy" : "LLL yyyy"
+                )}
+              </div>
+            )}
           </div>
           <div className="grid xl:max-w-lg xl:justify-items-start xl:pr-2">
             <Link to={slug.join("/")}>
@@ -42,6 +44,7 @@ export function LinkListWithImage({
                 className="m-0 overflow-hidden md:rounded-bl-md md:rounded-tl-md md:shadow-lg xl:rounded-lg"
                 image={image}
                 caption={false}
+                halfWidth
               />
             </Link>
           </div>

@@ -21,7 +21,6 @@ export async function loader({ params }: LoaderArgs) {
 
 export default function StopPage() {
   const { country, stop } = useLoaderData<typeof loader>();
-  console.log({ country, stop });
   return (
     <>
       <PageHero image={stop.image} title={stop.title} />

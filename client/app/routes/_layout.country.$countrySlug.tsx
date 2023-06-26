@@ -8,16 +8,16 @@ import {
 } from "@remix-run/react";
 import { getCountry } from "~/model/sanity";
 import { Prose } from "~/components/layout";
-import { PageHero } from "~/components/country";
+import { LinkListWithImage, PageHero } from "~/components/country";
 
 export async function loader({ params }: LoaderArgs) {
-  const page = await getCountry(params.countrySlug!);
-  if (!page)
+  const country = await getCountry(params.countrySlug!);
+  if (!country)
     throw new Response(null, {
       status: 404,
       statusText: "Not Found",
     });
-  return json({ page });
+  return json({ country });
 }
 
 export function ErrorBoundary() {
@@ -48,20 +48,29 @@ export function ErrorBoundary() {
 
 // Renders the "page" type or the "country" type
 export default function CountryPage() {
-  const { page } = useLoaderData<typeof loader>();
+  const { country } = useLoaderData<typeof loader>();
   const { stopSlug } = useParams();
-  console.log({ stopSlug });
   return (
     <>
       <Prose>
-        <PageHero {...page} shrink={!!stopSlug} />
+        <PageHero {...country} shrink={!!stopSlug} />
         <Outlet />
       </Prose>
-      <div className="dark:bg-emerald-800 -mb-16 py-16 mt-16">
-        <Prose>
-          <h2>More Countries</h2>
-        </Prose>
-      </div>
+      {country.otherCountries?.length && (
+        <div className="dark:bg-emerald-800 -mb-16 py-16 mt-16">
+          <Prose>
+            <div className="text-center font-bold text-slate-400">
+              MORE COUNTRIES
+            </div>
+            <LinkListWithImage
+              links={country.otherCountries.map((c) => ({
+                ...c,
+                date: c.firstStopDate,
+              }))}
+            />
+          </Prose>
+        </div>
+      )}
     </>
   );
 }
