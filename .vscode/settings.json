@@ -1,4 +1,10 @@
 {
   "tailwindCSS.rootFontSize": 20,
-  "prettier.prettierPath": "./node_modules/prettier"
+  "prettier.prettierPath": "./node_modules/prettier",
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#fff",
+    "titleBar.inactiveBackground": "#ffffffcc",
+    "titleBar.activeForeground": "#000000",
+    "titleBar.inactiveForeground": "#000000cc"
+  },
 }
