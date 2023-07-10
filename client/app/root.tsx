@@ -1,4 +1,4 @@
-import type { LinksFunction } from "@remix-run/node";
+import type { LinksFunction, V2_MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -23,11 +23,19 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
 ];
 
+export const meta: V2_MetaFunction = () => [
+  {
+    charset: "utf-8",
+  },{
+    title: "Travels - Matt Welson",
+  }
+];
+
+
 export default function App() {
   return (
     <html lang="en" className="sm:text-[20px]">
       <head>
-      {"<!-- Google tag (gtag.js) -->"}
         {process.env.NODE_ENV === "development" ? null : (
           <>
             <script async src="https://www.googletagmanager.com/gtag/js?id=G-WCB53BF66H"></script>
@@ -50,7 +58,6 @@ export default function App() {
         )}
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>Travels - Matt Welson</title>
         <Meta />
         <Links />
       </head>
