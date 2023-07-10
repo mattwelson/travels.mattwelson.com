@@ -27,6 +27,27 @@ export default function App() {
   return (
     <html lang="en" className="sm:text-[20px]">
       <head>
+      {"<!-- Google tag (gtag.js) -->"}
+        {process.env.NODE_ENV === "development" ? null : (
+          <>
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-WCB53BF66H"></script>
+            <script
+              async
+              id="gtag-init"
+              dangerouslySetInnerHTML={{
+                __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', 'G-WCB53BF66H', {
+                  page_path: window.location.pathname,
+                });
+              `,
+              }}
+            />
+          </>
+        )}
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <title>Travels - Matt Welson</title>
