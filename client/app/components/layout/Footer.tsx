@@ -5,8 +5,9 @@ export function Footer() {
   return (
     <footer className="mt-16 grid grid-cols-layout justify-items-center gap-x-8 gap-y-4 bg-white pb-16 pt-8 dark:bg-slate-900">
       <div className="col-start-2">Made by Matt Welson</div>
-      <div className="col-start-2">
+      <div className="col-start-2 flex gap-2 flex-col">
         <Link to="/about">About</Link>
+        <Link to="/privacy-and-consent">Privacy and Consent</Link>
       </div>
       <div className="col-start-2 grid grid-cols-2 justify-items-center">
         <a
