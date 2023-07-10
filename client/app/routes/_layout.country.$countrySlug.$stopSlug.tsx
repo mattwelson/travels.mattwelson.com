@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node";
+import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DateTime } from "luxon";
@@ -6,6 +6,11 @@ import { PageHero } from "~/components/country";
 import { Text } from "~/components/layout";
 import { OtherStops, StopMeta } from "~/components/stops";
 import { getStop } from "~/model/sanity";
+
+export const meta: V2_MetaFunction<typeof loader> = ({data}) => [{
+  title: `${data?.stop.title} - Travels - Matt Welson`,
+}
+];
 
 export async function loader({ params }: LoaderArgs) {
   const result = await getStop({

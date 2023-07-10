@@ -1,3 +1,4 @@
+import type { V2_MetaFunction } from "@remix-run/node";
 import { json, Response, type LoaderArgs } from "@remix-run/node";
 import {
   isRouteErrorResponse,
@@ -7,6 +8,11 @@ import {
 import { getPage } from "~/model/sanity";
 import { Prose, Text } from "~/components/layout";
 import { PageHero } from "~/components/country";
+
+export const meta: V2_MetaFunction<typeof loader> = ({data}) => [{
+    title: `${data?.page.title} - Travels - Matt Welson`,
+  }
+];
 
 export async function loader({ params }: LoaderArgs) {
   const page = await getPage(params.pageSlug!);

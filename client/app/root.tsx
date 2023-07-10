@@ -34,7 +34,6 @@ export const meta: V2_MetaFunction = () => [
   }
 ];
 
-
 export default function App() {
   const location = useLocation()
   useEffect(() => {

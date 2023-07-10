@@ -1,4 +1,4 @@
-import { getStop } from "~/model/sanity";
+import type { getStop } from "~/model/sanity";
 
 export function OtherStops({
   next,
@@ -7,7 +7,6 @@ export function OtherStops({
   next: NonNullable<Awaited<ReturnType<typeof getStop>>>["nextStop"];
   previous: NonNullable<Awaited<ReturnType<typeof getStop>>>["previousStop"];
 }) {
-  console.log({ next, previous });
   return (
     <>
       {next && <div>{next.title}</div>}

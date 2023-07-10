@@ -1,3 +1,4 @@
+import type { V2_MetaFunction } from "@remix-run/node";
 import { json, Response, type LoaderArgs } from "@remix-run/node";
 import {
   Outlet,
@@ -9,6 +10,11 @@ import {
 import { getCountry } from "~/model/sanity";
 import { Prose } from "~/components/layout";
 import { LinkListWithImage, PageHero } from "~/components/country";
+
+export const meta: V2_MetaFunction<typeof loader> = ({data}) => [{
+    title: `${data?.country.title} - Travels - Matt Welson`,
+  }
+];
 
 export async function loader({ params }: LoaderArgs) {
   const country = await getCountry(params.countrySlug!);
