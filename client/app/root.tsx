@@ -6,8 +6,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "@remix-run/react";
 import styles from "./tailwind.css";
+import { useEffect } from "react";
+import { pageview } from "./util/gtag.client";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -33,9 +36,18 @@ export const meta: V2_MetaFunction = () => [
 
 
 export default function App() {
+  const location = useLocation()
+  useEffect(() => {
+    pageview(location.pathname, 'G-WCB53BF66H')
+  }, [location])
+
   return (
     <html lang="en" className="sm:text-[20px]">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <Meta />
+        <Links />
         {process.env.NODE_ENV === "development" ? null : (
           <>
             <script async src="https://www.googletagmanager.com/gtag/js?id=G-WCB53BF66H"></script>
@@ -56,10 +68,6 @@ export default function App() {
             />
           </>
         )}
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <Meta />
-        <Links />
       </head>
       <body className="dark">
         <Outlet />
