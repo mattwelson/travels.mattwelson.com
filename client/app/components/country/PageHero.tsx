@@ -36,10 +36,10 @@ export function PageHero({
           countrySlug={slug?.join("/")}
           className="absolute col-start-1 row-start-1"
         />
-        <h1 className="col-start-1 row-start-1 text-slate-800 blur-sm">
+        <h1 className="col-start-1 row-start-1 text-slate-800 blur-sm px-4">
           {title}
         </h1>
-        <h1 className="col-start-1 row-start-1 text-white drop-shadow-md">
+        <h1 className="col-start-1 row-start-1 text-white drop-shadow-md px-4">
           {title}
         </h1>
       </Link>
