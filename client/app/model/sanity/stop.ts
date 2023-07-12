@@ -22,7 +22,7 @@ export async function getStop({
   return runQuery(
     q("*")
       .filter(
-        "slug.current == $stopSlug && country->.slug.current == $countrySlug"
+        "slug.current == $stopSlug && country->.slug.current == $countrySlug",
       )
       .filter("_type == 'stop'")
       .slice(0)
@@ -90,6 +90,6 @@ export async function getStop({
           .nullable(),
       })
       .nullable(),
-    { countrySlug, stopSlug }
+    { countrySlug, stopSlug },
   );
 }

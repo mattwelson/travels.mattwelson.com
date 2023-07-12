@@ -44,6 +44,6 @@ export async function getPage(slug: string) {
       .slice(0)
       .grab(pageSelection)
       .nullable(),
-    { slug }
+    { slug },
   );
 }

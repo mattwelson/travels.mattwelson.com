@@ -1,0 +1,22 @@
+{
+  "name": "travel.mattwelson.com",
+  "version": "1.0.0",
+  "description": "A travel blog using [Sanity.io](Sanity.io) and [Remix.run](remix.run).",
+  "main": "client/app/entry.client.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattwelson/travels.mattwelson.com.git"
+  },
+  "author": "mattwelson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mattwelson/travels.mattwelson.com/issues"
+  },
+  "homepage": "https://github.com/mattwelson/travels.mattwelson.com#readme",
+  "devDependencies": {
+    "prettier": "^3.0.0"
+  }
+}

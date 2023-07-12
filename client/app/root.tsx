@@ -29,16 +29,17 @@ export const links: LinksFunction = () => [
 export const meta: V2_MetaFunction = () => [
   {
     charset: "utf-8",
-  },{
+  },
+  {
     title: "Travels - Matt Welson",
-  }
+  },
 ];
 
 export default function App() {
-  const location = useLocation()
+  const location = useLocation();
   useEffect(() => {
-    pageview(location.pathname, 'G-WCB53BF66H')
-  }, [location])
+    pageview(location.pathname, "G-WCB53BF66H");
+  }, [location]);
 
   return (
     <html lang="en" className="sm:text-[20px]">
@@ -49,7 +50,10 @@ export default function App() {
         <Links />
         {process.env.NODE_ENV === "development" ? null : (
           <>
-            <script async src="https://www.googletagmanager.com/gtag/js?id=G-WCB53BF66H"></script>
+            <script
+              async
+              src="https://www.googletagmanager.com/gtag/js?id=G-WCB53BF66H"
+            ></script>
             <script
               async
               id="gtag-init"

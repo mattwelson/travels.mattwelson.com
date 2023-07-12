@@ -33,7 +33,7 @@ export function LinkListWithImage({
             {date && (
               <div className="text-slate-600 dark:text-slate-400">
                 {DateTime.fromISO(date).toFormat(
-                  _type === "stop" ? "dd LLL yyyy" : "LLL yyyy"
+                  _type === "stop" ? "dd LLL yyyy" : "LLL yyyy",
                 )}
               </div>
             )}

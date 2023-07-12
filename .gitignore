@@ -28,3 +28,6 @@ sanity/coverage
 
 # Dotenv and similar local-only files
 *.local
+
+# root
+node_modules

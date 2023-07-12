@@ -44,7 +44,7 @@ export function CountryMeta({
           <div className="text-xl">
             {country.firstStopDate &&
               DateTime.fromISO(country.firstStopDate.toString()).toFormat(
-                "LLL yyyy"
+                "LLL yyyy",
               )}
           </div>
           <div className="text-sm text-slate-400">Summer</div>

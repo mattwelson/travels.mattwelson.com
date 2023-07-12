@@ -9,9 +9,10 @@ import { getPage } from "~/model/sanity";
 import { Prose, Text } from "~/components/layout";
 import { PageHero } from "~/components/country";
 
-export const meta: V2_MetaFunction<typeof loader> = ({data}) => [{
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
+  {
     title: `${data?.page.title} - Travels - Matt Welson`,
-  }
+  },
 ];
 
 export async function loader({ params }: LoaderArgs) {

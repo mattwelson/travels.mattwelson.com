@@ -5,7 +5,8 @@ import { Prose } from "~/components/layout";
 import { getIndexPageCountries } from "~/model/sanity";
 
 export const meta: V2_MetaFunction = () => {
-  return [{
+  return [
+    {
       title: "Travels - Matt Welson",
     },
     { name: "description", content: "Travels with Matt and Family" },

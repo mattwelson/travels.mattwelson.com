@@ -66,12 +66,12 @@ export async function getCountry(slug: string) {
           .slice(0, 3),
       })
       .nullable(),
-    { slug }
+    { slug },
   );
 }
 
 export async function getNextAndPreviousCountries(
-  firstStopDate?: string | undefined
+  firstStopDate?: string | undefined,
 ) {
   if (!firstStopDate) return null;
   return runQuery(
@@ -97,7 +97,7 @@ export async function getNextAndPreviousCountries(
       })
       .slice(0)
       .nullable(),
-    { firstStopDate }
+    { firstStopDate },
   );
 }
 
@@ -115,6 +115,6 @@ export async function getIndexPageCountries() {
         image: imageSelection,
       })
       .filter("stopCount > 0")
-      .order("firstStopDate desc")
+      .order("firstStopDate desc"),
   );
 }
