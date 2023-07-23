@@ -18,9 +18,9 @@ export const countrySelection = {
   ...pageSelection,
   _type: q.literal("country"),
   slug: ["['', 'country', slug.current]", q.string().array()],
-  stops: q("*")
-    .filter("_type == 'stop' && references(^._id)")
-    .order("date desc")
+  stops: q("stops")
+    .filter()
+    .deref()
     .grab$({
       _type: q.string(),
       _id: q.string(),

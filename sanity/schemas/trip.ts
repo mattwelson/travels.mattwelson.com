@@ -1,12 +1,13 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
-import {DateTime} from 'luxon'
-import {MdEditLocation as icon} from 'react-icons/md'
+import {MdOutlineAirplaneTicket as icon} from 'react-icons/md'
 import {portableText} from './portableText'
+import {DateTime} from 'luxon'
 
-export const stop = defineType({
-  name: 'stop',
+export const trip = defineType({
   type: 'document',
-  title: 'Stop',
+  name: 'trip',
+  title: 'Trip',
+  description: 'The root for a trip, contains countries which contain stops',
   icon,
   fieldsets: [
     {
@@ -19,10 +20,20 @@ export const stop = defineType({
   ],
   fields: [
     defineField({
-      name: 'title',
       type: 'string',
+      name: 'title',
       title: 'Title',
     }),
+    {
+      title: 'Slug',
+      name: 'slug',
+      type: 'slug',
+      fieldset: 'meta',
+      options: {
+        source: 'title',
+        maxLength: 200, // will be ignored if slugify is set
+      },
+    },
     defineField({
       fieldset: 'meta',
       name: 'date',
@@ -58,28 +69,6 @@ export const stop = defineType({
       },
     }),
     defineField({
-      fieldset: 'meta',
-      name: 'region',
-      title: 'Region',
-      type: 'string',
-    }),
-    {
-      title: 'Slug',
-      name: 'slug',
-      type: 'slug',
-      fieldset: 'meta',
-      options: {
-        source: 'title',
-      },
-    },
-    defineField({
-      fieldset: 'meta',
-      name: 'order',
-      title: 'Order Modifier',
-      type: 'number',
-      description: 'Used to modify order within a single day, order TBC',
-    }),
-    defineField({
       type: 'image',
       name: 'image',
       title: 'Image',
@@ -100,5 +89,11 @@ export const stop = defineType({
       ],
     }),
     portableText,
+    defineField({
+      name: 'countries',
+      title: 'Countries',
+      type: 'array',
+      of: [defineArrayMember({type: 'reference', to: [{type: 'country'}]})],
+    }),
   ],
 })

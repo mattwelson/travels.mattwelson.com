@@ -1,6 +1,7 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {MdOutlineMap as icon} from 'react-icons/md'
 import {portableText} from './portableText'
+import {DateTime} from 'luxon'
 
 export const country = defineType({
   type: 'document',
@@ -32,6 +33,26 @@ export const country = defineType({
         maxLength: 200, // will be ignored if slugify is set
       },
     },
+    defineField({
+      fieldset: 'meta',
+      name: 'date',
+      type: 'date',
+      title: 'Date',
+      options: {
+        dateFormat: 'YYYY-MM-DD',
+      },
+      initialValue: () => DateTime.now().toFormat('yyyy-MM-dd'),
+    }),
+    defineField({
+      fieldset: 'meta',
+      name: 'endDate',
+      type: 'date',
+      title: 'End date',
+      options: {
+        dateFormat: 'YYYY-MM-DD',
+      },
+      initialValue: () => DateTime.now().toFormat('yyyy-MM-dd'),
+    }),
     defineField({
       fieldset: 'meta',
       name: 'tags',
@@ -67,5 +88,11 @@ export const country = defineType({
       ],
     }),
     portableText,
+    defineField({
+      name: 'stops',
+      title: 'Stops',
+      type: 'array',
+      of: [defineArrayMember({type: 'reference', to: [{type: 'stop'}]})],
+    }),
   ],
 })
