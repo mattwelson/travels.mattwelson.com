@@ -90,10 +90,10 @@ export const trip = defineType({
     }),
     portableText,
     defineField({
-      name: 'countries',
-      title: 'Countries',
+      name: 'stops',
+      title: 'Stops',
       type: 'array',
-      of: [defineArrayMember({type: 'reference', to: [{type: 'country'}]})],
+      of: [defineArrayMember({type: 'reference', to: [{type: 'stop'}]})],
     }),
   ],
 })

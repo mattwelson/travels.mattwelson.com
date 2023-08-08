@@ -9,7 +9,7 @@ export function LinkListWithImage({
   links: {
     _type: string;
     _id: string;
-    region?: string;
+    country?: { title: string; slug: string[] };
     slug: string[];
     title: string;
     date: string;
@@ -19,13 +19,16 @@ export function LinkListWithImage({
   if (links === null || links.length === 0) return null;
   return (
     <div className="!col-start-1 col-end-[-1] mt-8 flex flex-col gap-16">
-      {links.map(({ _type, _id, slug, title, date, image, region }) => (
+      {links.map(({ _type, _id, slug, title, date, image, country }) => (
         <div key={_id} className="grid items-center gap-y-4 md:grid-cols-2">
           <div className="px-8 md:text-right">
-            {region && (
-              <div className="font-bold text-emerald-700 dark:text-emerald-400/50">
-                {region}
-              </div>
+            {country && (
+              <Link
+                to={country.slug.join("/")}
+                className="no-underline font-bold text-emerald-700 dark:text-emerald-400/50"
+              >
+                {country.title}
+              </Link>
             )}
             <Link className="no-underline" to={slug.join("/")}>
               <h2 className="m-0">{title}</h2>

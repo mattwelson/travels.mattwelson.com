@@ -13,17 +13,15 @@ export const imageWithHotspot = sanityImage("", {
 export type imageWithHotspotType = InferType<typeof imageWithHotspot>;
 
 export async function getStop({
-  countrySlug,
+  tripSlug,
   stopSlug,
 }: {
-  countrySlug: string;
+  tripSlug: string;
   stopSlug: string;
 }) {
   return runQuery(
     q("*")
-      .filter(
-        "slug.current == $stopSlug && country->.slug.current == $countrySlug",
-      )
+      .filter("slug.current == $stopSlug")
       .filter("_type == 'stop'")
       .slice(0)
       .grab$({
@@ -32,10 +30,7 @@ export async function getStop({
         region: q.string(),
         image: imageSelection,
         country: q("country").deref().grab$(countrySelection),
-        slug: [
-          "['', 'country', country->.slug.current, slug.current]",
-          q.string().array(),
-        ],
+        slug: ["['', 'trip', $tripSlug, slug.current]", q.string().array()],
         body: q("body")
           .filter()
           .select({
@@ -56,40 +51,40 @@ export async function getStop({
           })
           .nullable(),
         // TODO: move to a separate function like countries are
-        nextStop: q("*")
-          .filterByType("stop")
-          .filter("country == ^.country")
-          .filter("date > ^.date")
-          .order("date asc")
-          .slice(0)
-          .grab$({
-            title: q.string(),
-            slug: [
-              "['', 'country', country->.slug.current, slug.current]",
-              q.string().array(),
-            ],
-            image: imageSelection,
-            date: q.string(),
-          })
-          .nullable(),
-        previousStop: q("*")
-          .filterByType("stop")
-          .filter("country == ^.country")
-          .filter("date < ^.date")
-          .order("date desc")
-          .slice(0)
-          .grab$({
-            title: q.string(),
-            slug: [
-              "['', 'country', country->.slug.current, slug.current]",
-              q.string().array(),
-            ],
-            image: imageSelection,
-            date: q.string(),
-          })
-          .nullable(),
+        // nextStop: q("*")
+        //   .filterByType("stop")
+        //   .filter("country == ^.country")
+        //   .filter("date > ^.date")
+        //   .order("date asc")
+        //   .slice(0)
+        //   .grab$({
+        //     title: q.string(),
+        //     slug: [
+        //       "['', 'country', country->.slug.current, slug.current]",
+        //       q.string().array(),
+        //     ],
+        //     image: imageSelection,
+        //     date: q.string(),
+        //   })
+        //   .nullable(),
+        // previousStop: q("*")
+        //   .filterByType("stop")
+        //   .filter("country == ^.country")
+        //   .filter("date < ^.date")
+        //   .order("date desc")
+        //   .slice(0)
+        //   .grab$({
+        //     title: q.string(),
+        //     slug: [
+        //       "['', 'country', country->.slug.current, slug.current]",
+        //       q.string().array(),
+        //     ],
+        //     image: imageSelection,
+        //     date: q.string(),
+        //   })
+        //   .nullable(),
       })
       .nullable(),
-    { countrySlug, stopSlug },
+    { tripSlug, stopSlug },
   );
 }

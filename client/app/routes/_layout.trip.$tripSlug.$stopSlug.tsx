@@ -1,23 +1,33 @@
+import type { V2_MetaFunction } from "@remix-run/node";
 import { json, Response, type LoaderArgs } from "@remix-run/node";
 import {
   isRouteErrorResponse,
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
-import { getCountry, getNextAndPreviousCountries } from "~/model/sanity";
+import { getStop } from "~/model/sanity";
 import { Prose, Text } from "~/components/layout";
-import { CountryMeta, LinkListWithImage } from "~/components/country";
+import { PageHero } from "~/components/country";
+import { StopMeta } from "~/components/stops";
+import { DateTime } from "luxon";
+
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
+  {
+    title: `${data?.stop.title} - Travels - Matt Welson`,
+  },
+];
 
 export async function loader({ params }: LoaderArgs) {
-  const country = await getCountry(params.countrySlug!);
-  if (!country)
+  const stop = await getStop({
+    tripSlug: params.tripSlug!,
+    stopSlug: params.stopSlug!,
+  });
+  if (!stop)
     throw new Response(null, {
       status: 404,
       statusText: "Not Found",
     });
-  const { nextCountry, previousCountry } =
-    (await getNextAndPreviousCountries(country.firstStopDate ?? "")) ?? {};
-  return json({ country, nextCountry, previousCountry });
+  return json({ stop });
 }
 
 export function ErrorBoundary() {
@@ -47,23 +57,19 @@ export function ErrorBoundary() {
 }
 
 // Renders the "page" type or the "country" type
-export default function PageOrCountryPage() {
-  const { country, nextCountry, previousCountry } =
-    useLoaderData<typeof loader>();
+export default function CountryPage() {
+  const { stop } = useLoaderData<typeof loader>();
   return (
     <>
-      {country._type === "country" && (
-        <CountryMeta
-          stops={country.stops}
-          country={country}
-          nextCountry={nextCountry ?? null}
-          previousCountry={previousCountry ?? null}
+      <Prose>
+        <PageHero image={stop.image} title={stop.title} slug={stop.slug} />
+        <StopMeta
+          date={DateTime.fromISO(stop.date).toFormat("dd MMM yyyy")}
+          country={stop.country}
         />
-      )}
-      <Text value={country.body} />
-      {country._type === "country" && (
-        <LinkListWithImage links={country.stops} />
-      )}
+        <Text value={stop.body} />
+        {/* <OtherStops next={stop.nextStop} previous={stop.previousStop} /> */}
+      </Prose>
     </>
   );
 }

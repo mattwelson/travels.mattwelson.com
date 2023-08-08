@@ -14,26 +14,9 @@ const firstStopDateSelection = {
 } satisfies Selection;
 
 export const countrySelection = {
-  ...firstStopDateSelection,
   ...pageSelection,
   _type: q.literal("country"),
   slug: ["['', 'country', slug.current]", q.string().array()],
-  stops: q("stops")
-    .filter()
-    .deref()
-    .grab$({
-      _type: q.string(),
-      _id: q.string(),
-      title: q.string(),
-      image: imageSelection,
-      // Join with .join('/') - empty string creates leading `/`
-      slug: [
-        "['', 'country', ^.slug.current, slug.current]",
-        q.string().array(),
-      ],
-      date: q.string(),
-      region: q.string(),
-    }),
 } satisfies Selection;
 
 export type countryType = TypeFromSelection<typeof countrySelection>;

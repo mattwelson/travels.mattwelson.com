@@ -59,6 +59,17 @@ export const stop = defineType({
     }),
     defineField({
       fieldset: 'meta',
+      name: 'country',
+      title: 'Country',
+      type: 'reference',
+      to: [
+        {
+          type: 'country',
+        },
+      ],
+    }),
+    defineField({
+      fieldset: 'meta',
       name: 'region',
       title: 'Region',
       type: 'string',
@@ -72,13 +83,6 @@ export const stop = defineType({
         source: 'title',
       },
     },
-    defineField({
-      fieldset: 'meta',
-      name: 'order',
-      title: 'Order Modifier',
-      type: 'number',
-      description: 'Used to modify order within a single day, order TBC',
-    }),
     defineField({
       type: 'image',
       name: 'image',

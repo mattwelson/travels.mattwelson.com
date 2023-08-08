@@ -8,8 +8,8 @@ import {
   useRouteError,
 } from "@remix-run/react";
 import { getCountry } from "~/model/sanity";
-import { Prose } from "~/components/layout";
-import { LinkListWithImage, PageHero } from "~/components/country";
+import { Prose, Text } from "~/components/layout";
+import { CountryMeta, LinkListWithImage, PageHero } from "~/components/country";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
   {
@@ -61,7 +61,18 @@ export default function CountryPage() {
     <>
       <Prose>
         <PageHero {...country} shrink={!!stopSlug} />
-        <Outlet />
+        {/* {country._type === "country" && (
+        // <CountryMeta
+        //   stops={country.stops}
+        //   country={country}
+        //   nextCountry={nextCountry ?? null}
+        //   previousCountry={previousCountry ?? null}
+        // />
+      )} */}
+        <Text value={country.body} />
+        {/* {country._type === "country" && (
+        <LinkListWithImage links={country.stops} />
+      )} */}
       </Prose>
       {country.otherCountries?.length && (
         <div className="dark:bg-emerald-800 -mb-16 py-16 mt-16">

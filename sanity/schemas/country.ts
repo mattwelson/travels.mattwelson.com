@@ -88,11 +88,5 @@ export const country = defineType({
       ],
     }),
     portableText,
-    defineField({
-      name: 'stops',
-      title: 'Stops',
-      type: 'array',
-      of: [defineArrayMember({type: 'reference', to: [{type: 'stop'}]})],
-    }),
   ],
 })

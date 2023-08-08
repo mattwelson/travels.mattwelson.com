@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
-import { getTrip } from "~/model/sanity";
+import type { getTrip } from "~/model/sanity";
 import { LinkListWithImage } from "../country";
+import { Text } from "../layout";
 
 // TODO: mode to just view the stops and not the countries?
 export function TripPage({
@@ -8,6 +9,7 @@ export function TripPage({
 }: {
   trip: NonNullable<Awaited<ReturnType<typeof getTrip>>>;
 }) {
+  console.log({ trip });
   return (
     <>
       <h2 className="m-0">{trip.title}</h2>
@@ -15,8 +17,9 @@ export function TripPage({
         {DateTime.fromISO(trip.date).toFormat("LLL yyyy")} -{" "}
         {DateTime.fromISO(trip.endDate).toFormat("LLL yyyy")}
       </div>
-      <div class="text-center font-bold text-slate-400">Countries</div>
-      <LinkListWithImage links={trip.countries} />
+      <Text value={trip.body} />
+      <div className="text-center font-bold text-slate-400">Timeline</div>
+      <LinkListWithImage links={trip.stops} />
     </>
   );
 }
