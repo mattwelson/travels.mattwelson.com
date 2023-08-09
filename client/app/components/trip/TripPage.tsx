@@ -9,7 +9,6 @@ export function TripPage({
 }: {
   trip: NonNullable<Awaited<ReturnType<typeof getTrip>>>;
 }) {
-  console.log({ trip });
   return (
     <>
       <h2 className="m-0">{trip.title}</h2>

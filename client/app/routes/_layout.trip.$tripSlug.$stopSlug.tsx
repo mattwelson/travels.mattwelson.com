@@ -63,7 +63,6 @@ export function ErrorBoundary() {
 // Renders the "page" type or the "country" type
 export default function CountryPage() {
   const { stop, previousStop, nextStop } = useLoaderData<typeof loader>();
-  console.log({ stop });
   return (
     <>
       <Prose>
