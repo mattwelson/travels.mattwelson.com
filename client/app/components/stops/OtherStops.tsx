@@ -1,16 +1,25 @@
-import type { getStop } from "~/model/sanity";
+import type { StopSelection } from "~/model/sanity";
+import { LinkWithImage } from "../country/LinkWithImage";
 
 export function OtherStops({
   next,
   previous,
 }: {
-  next: NonNullable<Awaited<ReturnType<typeof getStop>>>["nextStop"];
-  previous: NonNullable<Awaited<ReturnType<typeof getStop>>>["previousStop"];
+  next: StopSelection | null;
+  previous: StopSelection | null;
 }) {
   return (
     <>
-      {next && <div>{next.title}</div>}
-      {previous && <div>{previous.title}</div>}
+      {next && (
+        <div className="!col-start-1 col-end-[-1] mt-8 flex flex-col gap-16">
+          <LinkWithImage {...next} subtitle="Next" />
+        </div>
+      )}
+      {previous && (
+        <div className="!col-start-1 col-end-[-1] mt-8 flex flex-col gap-16">
+          <LinkWithImage {...previous} subtitle="Previous" />
+        </div>
+      )}
     </>
   );
 }

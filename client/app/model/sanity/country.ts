@@ -2,6 +2,7 @@ import type { TypeFromSelection, Selection } from "groqd";
 import { q } from "groqd";
 import { runQuery } from "~/lib/sanity";
 import { imageSelection, pageSelection } from "./page";
+import { stopSelection } from "./stop";
 
 const firstStopDateSelection = {
   firstStopDate: q("*")
@@ -40,6 +41,11 @@ export async function getCountry(slug: string) {
       .slice(0)
       .grab$({
         ...countrySelection,
+        stops: q("*")
+          .filter("_type == 'stop' && references(^._id)")
+          .order("date asc")
+          .grab$({ ...stopSelection, image: imageSelection })
+          .nullable(),
         otherCountries: q("*")
           .filterByType("country")
           .grab$(countryListSelect)

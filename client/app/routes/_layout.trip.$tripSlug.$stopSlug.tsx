@@ -5,10 +5,10 @@ import {
   useLoaderData,
   useRouteError,
 } from "@remix-run/react";
-import { getStop } from "~/model/sanity";
+import { getNextAndPreviousStop, getStop } from "~/model/sanity";
 import { Prose, Text } from "~/components/layout";
 import { PageHero } from "~/components/country";
-import { StopMeta } from "~/components/stops";
+import { OtherStops, StopMeta } from "~/components/stops";
 import { DateTime } from "luxon";
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
@@ -27,7 +27,11 @@ export async function loader({ params }: LoaderArgs) {
       status: 404,
       statusText: "Not Found",
     });
-  return json({ stop });
+  const { previousStop, nextStop } = getNextAndPreviousStop({
+    currentId: stop._id,
+    stopsForTrip: stop.trip.stops,
+  });
+  return json({ stop, previousStop, nextStop });
 }
 
 export function ErrorBoundary() {
@@ -58,7 +62,8 @@ export function ErrorBoundary() {
 
 // Renders the "page" type or the "country" type
 export default function CountryPage() {
-  const { stop } = useLoaderData<typeof loader>();
+  const { stop, previousStop, nextStop } = useLoaderData<typeof loader>();
+  console.log({ stop });
   return (
     <>
       <Prose>
@@ -68,7 +73,7 @@ export default function CountryPage() {
           country={stop.country}
         />
         <Text value={stop.body} />
-        {/* <OtherStops next={stop.nextStop} previous={stop.previousStop} /> */}
+        <OtherStops next={nextStop} previous={previousStop} />
       </Prose>
     </>
   );

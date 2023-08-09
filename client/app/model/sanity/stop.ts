@@ -1,4 +1,4 @@
-import type { InferType } from "groqd";
+import type { InferType, Selection, TypeFromSelection } from "groqd";
 import { q, sanityImage } from "groqd";
 import { runQuery } from "~/lib/sanity";
 import { countrySelection, imageSelection } from ".";
@@ -11,6 +11,20 @@ export const imageWithHotspot = sanityImage("", {
 }).schema;
 
 export type imageWithHotspotType = InferType<typeof imageWithHotspot>;
+
+export const stopSelection = {
+  _id: q.string(),
+  _type: q.literal("stop"),
+  title: q.string(),
+  date: q.string(),
+  region: q.string(),
+  image: imageSelection,
+  //country: q("country").deref().grab$(countrySelection).nullable(),
+  slug: [
+    "['', 'trip', *[_type == 'trip' && references(^._id)][0].slug.current, slug.current]",
+    q.string().array(),
+  ],
+} satisfies Selection;
 
 export async function getStop({
   tripSlug,
@@ -25,12 +39,8 @@ export async function getStop({
       .filter("_type == 'stop'")
       .slice(0)
       .grab$({
-        title: q.string(),
-        date: q.string(),
-        region: q.string(),
+        ...stopSelection,
         image: imageSelection,
-        country: q("country").deref().grab$(countrySelection),
-        slug: ["['', 'trip', $tripSlug, slug.current]", q.string().array()],
         body: q("body")
           .filter()
           .select({
@@ -50,41 +60,37 @@ export async function getStop({
             },
           })
           .nullable(),
-        // TODO: move to a separate function like countries are
-        // nextStop: q("*")
-        //   .filterByType("stop")
-        //   .filter("country == ^.country")
-        //   .filter("date > ^.date")
-        //   .order("date asc")
-        //   .slice(0)
-        //   .grab$({
-        //     title: q.string(),
-        //     slug: [
-        //       "['', 'country', country->.slug.current, slug.current]",
-        //       q.string().array(),
-        //     ],
-        //     image: imageSelection,
-        //     date: q.string(),
-        //   })
-        //   .nullable(),
-        // previousStop: q("*")
-        //   .filterByType("stop")
-        //   .filter("country == ^.country")
-        //   .filter("date < ^.date")
-        //   .order("date desc")
-        //   .slice(0)
-        //   .grab$({
-        //     title: q.string(),
-        //     slug: [
-        //       "['', 'country', country->.slug.current, slug.current]",
-        //       q.string().array(),
-        //     ],
-        //     image: imageSelection,
-        //     date: q.string(),
-        //   })
-        //   .nullable(),
+        trip: q("*")
+          .filter("_type=='trip' && slug.current == $tripSlug")
+          .slice(0)
+          .grab$({
+            stops: q("stops")
+              .filter()
+              .deref()
+              .grab$({ ...stopSelection, image: imageSelection }),
+          }),
       })
       .nullable(),
     { tripSlug, stopSlug },
   );
+}
+
+export type StopSelection = TypeFromSelection<typeof stopSelection>;
+
+export function getNextAndPreviousStop({
+  stopsForTrip,
+  currentId,
+}: {
+  stopsForTrip: StopSelection[];
+  currentId: string;
+}) {
+  const index = stopsForTrip.findIndex(({ _id }) => _id === currentId);
+  const [previousIndex, nextIndex] = [index - 1, index + 1];
+  const previousStop = previousIndex >= 0 ? stopsForTrip[previousIndex] : null;
+  const nextStop =
+    nextIndex < stopsForTrip.length ? stopsForTrip[nextIndex] : null;
+  return {
+    previousStop,
+    nextStop,
+  };
 }
