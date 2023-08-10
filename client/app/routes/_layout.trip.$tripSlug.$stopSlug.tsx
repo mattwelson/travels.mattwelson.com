@@ -72,6 +72,7 @@ export default function CountryPage() {
           country={stop.country}
         />
         <Text value={stop.body} />
+        <div className="h-0.5 bg-slate-400/30 mt-8 mx-16" />
         <OtherStops next={nextStop} previous={previousStop} />
       </Prose>
     </>

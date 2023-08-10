@@ -1,4 +1,7 @@
+import { motion } from "framer-motion";
 import { imageBuilder } from "~/lib/sanity";
+
+const variants = { visible: { opacity: 1, y: 0 } };
 
 // TODO: fix aspect ratio, make it based off of crop, so it's different for each image
 export function Image({
@@ -6,11 +9,13 @@ export function Image({
   className = "",
   caption = true,
   halfWidth = false,
+  includeLayoutId = false,
 }: {
   image?: any;
   className?: string;
   caption?: boolean;
   halfWidth?: boolean;
+  includeLayoutId?: boolean;
 }) {
   if (!image) return null;
   const aspectRatio = 12 / 7;
@@ -18,22 +23,28 @@ export function Image({
     imageBuilder
       .image(image)
       .fit("clip")
-      .quality(90)
+      .quality(95)
       .width(width)
       .height(Math.round(width / aspectRatio))
       .url();
   return (
-    <figure className={`${className}`}>
+    <motion.figure
+      className={`${className}`}
+      layoutId={includeLayoutId ? "image" : undefined}
+      variants={variants}
+      animate="visible"
+      layout
+    >
       <img
         src={imageUrlBase(1200)}
         srcSet={[300, 400, 600, 700, 900, 1100, 1200, 2400]
           .map((w) => `${imageUrlBase(w)} ${w}w`)
           .join(",\n")}
-        sizes={halfWidth ? "(min-width: 768px) 45vw, 90vw" : "90vw"}
+        sizes={halfWidth ? "(min-width: 768px) 50vw, 100vw" : "100vw"}
         alt={image.caption ?? ""}
         className="aspect-[12/7] w-[1200px]"
       />
       {caption && <figcaption>{image.attribution ?? image.caption}</figcaption>}
-    </figure>
+    </motion.figure>
   );
 }

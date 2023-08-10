@@ -19,12 +19,26 @@ export const stopSelection = {
   date: q.string(),
   region: q.string(),
   image: imageSelection,
-  //country: q("country").deref().grab$(countrySelection).nullable(),
   slug: [
     "['', 'trip', *[_type == 'trip' && references(^._id)][0].slug.current, slug.current]",
     q.string().array(),
   ],
 } satisfies Selection;
+
+export const stopWithCountrySelection = {
+  ...stopSelection,
+  country: q("country")
+    .deref()
+    .grab$({
+      title: q.string(),
+      slug: ["['', 'country', slug.current]", q.string().array()],
+    }),
+};
+
+export type StopSelection = TypeFromSelection<typeof stopSelection>;
+export type StopWithCountrySelection = TypeFromSelection<
+  typeof stopWithCountrySelection
+>;
 
 export async function getStop({
   tripSlug,
@@ -67,15 +81,13 @@ export async function getStop({
             stops: q("stops")
               .filter()
               .deref()
-              .grab$({ ...stopSelection, image: imageSelection }),
+              .grab$({ ...stopWithCountrySelection, image: imageSelection }),
           }),
       })
       .nullable(),
     { tripSlug, stopSlug },
   );
 }
-
-export type StopSelection = TypeFromSelection<typeof stopSelection>;
 
 export function getNextAndPreviousStop({
   stopsForTrip,

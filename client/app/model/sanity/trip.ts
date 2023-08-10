@@ -21,6 +21,7 @@ export async function getTrip(slug: string = "america") {
           .filter()
           .deref()
           .grab$({
+            _id: q.string(),
             _type: q.literal("stop"),
             title: q.string(),
             date: q.string(),
@@ -28,8 +29,8 @@ export async function getTrip(slug: string = "america") {
             image: imageSelection,
             country: q("country").deref().grab$(countrySelection),
             slug: ["['', 'trip', $slug, slug.current]", q.string().array()],
-          }),
-        //countries: q("countries").filter().deref().grab$(countrySelection),
+          })
+          .nullable(),
       })
       .nullable(),
     { slug },

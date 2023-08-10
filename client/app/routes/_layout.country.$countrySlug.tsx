@@ -63,7 +63,7 @@ export default function CountryPage() {
         <PageHero {...country} shrink={!!stopSlug} />
         <Text value={country.body} />
         {country._type === "country" && (
-          <LinkListWithImage links={country.stops} />
+          <LinkListWithImage links={country.stops ?? []} />
         )}
       </Prose>
       {country.otherCountries?.length && (
@@ -73,10 +73,12 @@ export default function CountryPage() {
               MORE COUNTRIES
             </div>
             <LinkListWithImage
-              links={country.otherCountries.map((c) => ({
-                ...c,
-                date: c.firstStopDate,
-              }))}
+              links={
+                country.otherCountries?.map((c) => ({
+                  ...c,
+                  date: c.firstStopDate,
+                })) ?? []
+              }
             />
           </Prose>
         </div>
