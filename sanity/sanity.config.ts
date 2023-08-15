@@ -9,7 +9,7 @@ export default defineConfig({
   title: 'travel.mattwelson.com',
 
   projectId: 'k3w6sp5u',
-  dataset: 'demonstration', //'production',
+  dataset: 'production', //'demonstration',
 
   plugins: [deskTool(), groqdPlaygroundTool(), visionTool()],
 

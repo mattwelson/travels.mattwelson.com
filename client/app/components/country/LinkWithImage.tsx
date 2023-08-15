@@ -81,7 +81,7 @@ export function LinkWithImage({
             </Link>
           )}
           <Link className="no-underline" to={slug.join("/")}>
-            <motion.h2 className="m-0" layoutId="title" layout="position">
+            <motion.h2 className="m-0" layout="position">
               {title}
             </motion.h2>
           </Link>

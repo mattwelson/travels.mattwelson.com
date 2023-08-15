@@ -30,7 +30,6 @@ export function Image({
   return (
     <motion.figure
       className={`${className}`}
-      layoutId={includeLayoutId ? "image" : undefined}
       variants={variants}
       animate="visible"
       layout
