@@ -3,7 +3,7 @@ import { q } from "groqd";
 import { countrySelection } from "./country";
 import { imageSelection, pageSelection } from "./page";
 
-export async function getTrip(slug: string = "america") {
+export async function getTrip(slug: string = "europe") {
   return runQuery(
     q("*")
       .filter("slug.current == $slug")
