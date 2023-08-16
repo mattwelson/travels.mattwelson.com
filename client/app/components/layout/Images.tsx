@@ -21,7 +21,7 @@ export function ImageCell({ image }: { image: imageWithHotspotType[0] }) {
       ref={scope}
       key={image._key}
       style={{
-        flexBasis: image.fullWidth ? "100%" : (image.hotspot?.width ?? 1) * 350,
+        flexBasis: image.fullWidth ? "100%" : (image.hotspot?.width ?? 1) * 450,
         opacity: 0,
       }}
       className={`grow`}
@@ -41,7 +41,7 @@ export function ImageCell({ image }: { image: imageWithHotspotType[0] }) {
 export function Images({ images }: { images: imageWithHotspotType }) {
   return (
     <div className="my-8 !col-start-1 !col-end-[-1] sm:mx-2 ">
-      <motion.div className="flex flex-wrap mx-auto w-[1200px] max-w-full gap-2 items-stretch">
+      <motion.div className="flex flex-wrap mx-auto max-w-full gap-2 items-stretch">
         {images.map((image) => (
           <ImageCell image={image} key={image._key} />
         ))}
