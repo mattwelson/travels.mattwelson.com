@@ -1,7 +1,7 @@
 import { imageBuilder } from "~/lib/sanity";
 import type { imageWithHotspotType } from "~/model/sanity";
-import { motion, stagger, useAnimate, useInView } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { motion, useAnimate, useInView } from "framer-motion";
+import { useEffect } from "react";
 
 //const parentVariants = { animate: { transition: { staggerChildren: 0.2 } } };
 const childVariants = { initial: { opacity: 0 }, animate: { opacity: 1 } };
@@ -27,12 +27,19 @@ export function ImageCell({ image }: { image: imageWithHotspotType[0] }) {
       className={`grow`}
       variants={childVariants}
     >
-      <img
-        src={imageBuilder.image(image).width(1_200).fit("min").url()}
-        alt={""}
-        className={`m-0 h-full max-h-full mx-auto object-cover max-w-full`}
-        loading="lazy"
-      />
+      <a
+        href={imageBuilder.image(image).url()}
+        className=""
+        target="_blank"
+        rel="noreferrer"
+      >
+        <img
+          src={imageBuilder.image(image).width(1_200).fit("min").url()}
+          alt={""}
+          className={`m-0 h-full max-h-full mx-auto object-cover max-w-full`}
+          loading="lazy"
+        />
+      </a>
     </motion.div>
   );
 }
