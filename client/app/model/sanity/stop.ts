@@ -1,7 +1,7 @@
 import type { InferType, Selection, TypeFromSelection } from "groqd";
 import { q, sanityImage } from "groqd";
 import { runQuery } from "~/lib/sanity";
-import { countrySelection, imageSelection } from ".";
+import { imageSelection } from ".";
 
 export const imagesWithHotspot = sanityImage("images", {
   additionalFields: { fullWidth: q.boolean() },

@@ -18,6 +18,7 @@ export function ImageCell({ image }: { image: imagesWithHotspotType[0] }) {
     }
   }, [isInView, animate, scope]);
 
+  console.log({ image });
   return (
     <motion.div
       ref={scope}
@@ -29,7 +30,7 @@ export function ImageCell({ image }: { image: imagesWithHotspotType[0] }) {
         opacity: 0,
         maxWidth:
           (image.asset.metadata.dimensions?.width ?? DEFAULT_IMAGE_BASIS) *
-          (image.hotspot?.width ?? 0),
+          (image.hotspot?.width ?? 1),
       }}
       className={`grow`}
       variants={childVariants}
