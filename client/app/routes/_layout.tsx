@@ -4,7 +4,7 @@ import { Footer, Header } from "~/components/layout";
 
 export default function Layout() {
   return (
-    <motion.div className=" grid min-h-screen grid-rows-[auto_1fr_auto] items-start dark:bg-slate-800 dark:text-white">
+    <motion.div className=" grid min-h-screen grid-rows-[auto_1fr_auto] items-start dark:text-white">
       <Header />
       <LayoutGroup>
         <Outlet />

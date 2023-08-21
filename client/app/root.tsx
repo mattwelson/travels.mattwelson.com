@@ -45,7 +45,7 @@ export default function App() {
   }, [location]);
 
   return (
-    <html lang="en" className="sm:text-[20px]">
+    <html lang="en" className="sm:text-[20px] dark">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -75,7 +75,7 @@ export default function App() {
           </>
         )}
       </head>
-      <body className="dark">
+      <body className="dark:bg-slate-800">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
