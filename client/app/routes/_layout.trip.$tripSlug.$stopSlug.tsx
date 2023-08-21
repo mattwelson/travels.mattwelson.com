@@ -1,8 +1,10 @@
 import type { V2_MetaFunction } from "@remix-run/node";
 import { json, Response, type LoaderArgs } from "@remix-run/node";
 import {
+  Link,
   isRouteErrorResponse,
   useLoaderData,
+  useParams,
   useRouteError,
 } from "@remix-run/react";
 import { getNextAndPreviousStop, getStop } from "~/model/sanity";
@@ -63,6 +65,8 @@ export function ErrorBoundary() {
 // Renders the "page" type or the "country" type
 export default function CountryPage() {
   const { stop, previousStop, nextStop } = useLoaderData<typeof loader>();
+  const { tripSlug } = useParams();
+
   return (
     <>
       <Prose>
@@ -75,6 +79,19 @@ export default function CountryPage() {
         <div className="h-0.5 bg-slate-400/30 mt-8 mx-16" />
         <OtherStops next={nextStop} previous={previousStop} />
       </Prose>
+      <div className="dark:bg-emerald-800 -mb-16 py-16 mt-16">
+        <Prose>
+          <div className="text-center font-bold text-slate-400">
+            Back to Trip
+          </div>
+          <Link
+            className="text-center text-3xl no-underline"
+            to={stop.trip.slug.join("/")}
+          >
+            {stop.trip.title}
+          </Link>
+        </Prose>
+      </div>
     </>
   );
 }

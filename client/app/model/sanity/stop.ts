@@ -3,14 +3,16 @@ import { q, sanityImage } from "groqd";
 import { runQuery } from "~/lib/sanity";
 import { countrySelection, imageSelection } from ".";
 
-export const imageWithHotspot = sanityImage("", {
+export const imagesWithHotspot = sanityImage("images", {
   additionalFields: { fullWidth: q.boolean() },
   withHotspot: true,
   withCrop: true,
   isList: true,
-}).schema;
+  withAsset: ["base", "dimensions"],
+});
+export const imagesWithHotspotSchema = imagesWithHotspot.schema;
 
-export type imageWithHotspotType = InferType<typeof imageWithHotspot>;
+export type imagesWithHotspotType = InferType<typeof imagesWithHotspotSchema>;
 
 export const stopSelection = {
   _id: q.string(),
@@ -47,46 +49,47 @@ export async function getStop({
   tripSlug: string;
   stopSlug: string;
 }) {
-  return runQuery(
-    q("*")
-      .filter("slug.current == $stopSlug")
-      .filter("_type == 'stop'")
-      .slice(0)
-      .grab$({
-        ...stopSelection,
-        image: imageSelection,
-        body: q("body")
-          .filter()
-          .select({
-            '_type == "block"': ["{...}", q.contentBlock()],
-            '_type == "image"': ["{...}", sanityImage("").schema],
-            '_type == "imageList"': [
-              "{...}",
-              q.object({
-                _type: q.string(),
-                images: imageWithHotspot,
-              }),
-            ],
-            default: {
-              _key: q.string(),
-              _type: ['"unsupported"', q.literal("unsupported")],
-              unsupportedType: ["_type", q.string()],
-            },
-          })
-          .nullable(),
-        trip: q("*")
-          .filter("_type=='trip' && slug.current == $tripSlug")
-          .slice(0)
-          .grab$({
-            stops: q("stops")
-              .filter()
-              .deref()
-              .grab$({ ...stopWithCountrySelection, image: imageSelection }),
-          }),
-      })
-      .nullable(),
-    { tripSlug, stopSlug },
-  );
+  const query = q("*")
+    .filter("slug.current == $stopSlug")
+    .filter("_type == 'stop'")
+    .slice(0)
+    .grab$({
+      ...stopSelection,
+      image: imageSelection,
+      body: q("body")
+        .filter()
+        .select({
+          '_type == "block"': ["{...}", q.contentBlock()],
+          '_type == "image"': ["{...}", sanityImage("").schema],
+          '_type == "imageList"': [
+            `{..., "images": ${imagesWithHotspot.query}}`,
+            q.object({
+              _type: q.string(),
+              images: imagesWithHotspot.schema,
+            }),
+          ],
+          default: {
+            _key: q.string(),
+            _type: ['"unsupported"', q.literal("unsupported")],
+            unsupportedType: ["_type", q.string()],
+          },
+        })
+        .nullable(),
+      trip: q("*")
+        .filter("_type=='trip' && slug.current == $tripSlug")
+        .slice(0)
+        .grab$({
+          title: q.string(),
+          slug: ["['','trip',slug.current]", q.string().array()],
+          stops: q("stops")
+            .filter()
+            .deref()
+            .grab$({ ...stopWithCountrySelection, image: imageSelection }),
+        }),
+    })
+    .nullable();
+
+  return runQuery(query, { tripSlug, stopSlug });
 }
 
 export function getNextAndPreviousStop({

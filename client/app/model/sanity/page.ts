@@ -1,7 +1,7 @@
 import type { Selection } from "groqd";
 import { q, sanityImage } from "groqd";
 import { runQuery } from "~/lib/sanity";
-import { imageWithHotspot } from "./stop";
+import { imagesWithHotspot } from "./stop";
 
 export const imageSelection = sanityImage("image", {
   additionalFields: {
@@ -23,7 +23,7 @@ export const pageSelection = {
         "{...}",
         q.object({
           _type: q.string(),
-          images: imageWithHotspot,
+          images: imagesWithHotspot,
         }),
       ],
       default: {
