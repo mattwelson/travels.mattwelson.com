@@ -18,7 +18,9 @@ export function ImageCell({ image }: { image: imagesWithHotspotType[0] }) {
     }
   }, [isInView, animate, scope]);
 
-  console.log({ image });
+  const aspectRatio = image.hotspot
+    ? image.hotspot.width / image.hotspot.height
+    : image.asset.metadata.dimensions?.aspectRatio;
   return (
     <motion.div
       ref={scope}
@@ -26,7 +28,7 @@ export function ImageCell({ image }: { image: imagesWithHotspotType[0] }) {
       style={{
         flexBasis: image.fullWidth
           ? "100%"
-          : (image.hotspot?.width ?? 1) * DEFAULT_IMAGE_BASIS,
+          : (aspectRatio ?? 1) * DEFAULT_IMAGE_BASIS,
         opacity: 0,
         maxWidth:
           (image.asset.metadata.dimensions?.width ?? DEFAULT_IMAGE_BASIS) *
