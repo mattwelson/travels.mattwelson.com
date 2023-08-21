@@ -33,6 +33,9 @@ export const meta: V2_MetaFunction = () => [
   {
     title: "Travels - Matt Welson",
   },
+  {
+    theme: "#293B57",
+  },
 ];
 
 export default function App() {
