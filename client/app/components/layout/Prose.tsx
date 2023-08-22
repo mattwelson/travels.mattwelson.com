@@ -24,6 +24,9 @@ export function Prose({ children }: { children: React.ReactNode }) {
       prose-blockquote:bg-slate-900
       prose-blockquote:-mx-8
       prose-blockquote:px-6
+      prose-h1:text-xl
+      prose-h1:sm:text-2xl
+      prose-h1:md:text-4xl
       `}
     >
       {children}
