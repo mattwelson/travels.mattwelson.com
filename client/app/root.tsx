@@ -28,13 +28,7 @@ export const links: LinksFunction = () => [
 
 export const meta: V2_MetaFunction = () => [
   {
-    charset: "utf-8",
-  },
-  {
     title: "Travels - Matt Welson",
-  },
-  {
-    theme: "#293B57",
   },
 ];
 
@@ -49,6 +43,9 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <meta name="theme" content="#293B57" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="og:site_name" content="Travels - Matt Welson" />
         <Meta />
         <Links />
         {process.env.NODE_ENV === "development" ? null : (

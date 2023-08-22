@@ -12,12 +12,31 @@ import { Prose, Text } from "~/components/layout";
 import { PageHero } from "~/components/country";
 import { OtherStops, StopMeta } from "~/components/stops";
 import { DateTime } from "luxon";
+import { imageBuilder } from "~/lib/sanity";
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data }) => [
-  {
-    title: `${data?.stop.title} - Travels - Matt Welson`,
-  },
-];
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
+  const imageUrl = data?.stop?.image
+    ? imageBuilder
+        .image(data?.stop.image)
+        .fit("clip")
+        .quality(95)
+        .url()
+    : null;
+  return [
+    {
+      title: `${data?.stop?.title} - Travels - Matt Welson`,
+    },
+    {
+      "og:type": "article",
+    },
+    {
+      "og:image": imageUrl,
+    },
+    {
+      description: data?.stop?.excerpt,
+    },
+  ];
+};
 
 export async function loader({ params }: LoaderArgs) {
   const stop = await getStop({

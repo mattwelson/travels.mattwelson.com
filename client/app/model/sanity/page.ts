@@ -14,16 +14,20 @@ export const pageSelection = {
   _type: q.literal("page"),
   title: q.string(),
   slug: ["['', slug.current]", q.string().array()],
+  excerpt: [
+    `array::join(string::split((pt::text(body)), "")[0..255], "") + "..."`,
+    q.string(),
+  ],
   body: q("body")
     .filter()
     .select({
       '_type == "block"': ["{...}", q.contentBlock()],
       '_type == "image"': ["{...}", sanityImage("").schema],
       '_type == "imageList"': [
-        "{...}",
+        `{..., "images": ${imagesWithHotspot.query}}`,
         q.object({
           _type: q.string(),
-          images: imagesWithHotspot,
+          images: imagesWithHotspot.schema,
         }),
       ],
       default: {

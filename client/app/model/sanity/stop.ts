@@ -56,6 +56,10 @@ export async function getStop({
     .grab$({
       ...stopSelection,
       image: imageSelection,
+      excerpt: [
+        `array::join(string::split((pt::text(body)), "")[0..255], "") + "..."`,
+        q.string(),
+      ],
       body: q("body")
         .filter()
         .select({
