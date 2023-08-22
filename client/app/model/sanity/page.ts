@@ -16,13 +16,13 @@ export const pageSelection = {
   slug: ["['', slug.current]", q.string().array()],
   excerpt: [
     `array::join(string::split((pt::text(body)), "")[0..255], "") + "..."`,
-    q.string(),
+    q.string().nullable(),
   ],
   body: q("body")
     .filter()
     .select({
       '_type == "block"': ["{...}", q.contentBlock()],
-      '_type == "image"': ["{...}", sanityImage("").schema],
+      '_type == "image"': sanityImage(""),
       '_type == "imageList"': [
         `{..., "images": ${imagesWithHotspot.query}}`,
         q.object({

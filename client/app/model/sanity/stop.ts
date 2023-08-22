@@ -64,7 +64,7 @@ export async function getStop({
         .filter()
         .select({
           '_type == "block"': ["{...}", q.contentBlock()],
-          '_type == "image"': ["{...}", sanityImage("").schema],
+          '_type == "image"': sanityImage(""),
           '_type == "imageList"': [
             `{..., "images": ${imagesWithHotspot.query}}`,
             q.object({
