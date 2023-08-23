@@ -6,7 +6,7 @@ import {schemaTypes} from './schemas'
 
 export default defineConfig({
   name: 'default',
-  title: 'travel.mattwelson.com',
+  title: 'travels.mattwelson.com',
 
   projectId: 'k3w6sp5u',
   dataset: 'production', //'demonstration',
