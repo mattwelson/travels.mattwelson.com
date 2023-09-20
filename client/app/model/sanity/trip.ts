@@ -25,7 +25,7 @@ export async function getTrip(slug: string = "europe") {
             _type: q.literal("stop"),
             title: q.string(),
             date: q.string(),
-            region: q.string(),
+            region: q.string().optional(),
             image: imageSelection,
             country: q("country").deref().grab$(countrySelection),
             slug: ["['', 'trip', $slug, slug.current]", q.string().array()],

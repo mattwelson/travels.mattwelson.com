@@ -16,7 +16,7 @@ export const pageSelection = {
   slug: ["['', slug.current]", q.string().array()],
   excerpt: [
     `array::join(string::split((pt::text(body)), "")[0..255], "") + "..."`,
-    q.string().nullable(),
+    q.string().optional(),
   ],
   body: q("body")
     .filter()

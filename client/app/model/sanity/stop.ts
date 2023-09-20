@@ -19,7 +19,7 @@ export const stopSelection = {
   _type: q.literal("stop"),
   title: q.string(),
   date: q.string(),
-  region: q.string(),
+  region: q.string().optional(),
   image: imageSelection,
   slug: [
     "['', 'trip', *[_type == 'trip' && references(^._id)][0].slug.current, slug.current]",
@@ -58,7 +58,7 @@ export async function getStop({
       image: imageSelection,
       excerpt: [
         `array::join(string::split((pt::text(body)), "")[0..255], "") + "..."`,
-        q.string(),
+        q.string().optional(),
       ],
       body: q("body")
         .filter()
